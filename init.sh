@@ -12,6 +12,7 @@ SUPPORT_DIR=./support
 PRJ_DIR=./projects/bpms-generic-loan
 BPMS=jboss-bpmsuite-6.1.0.GA-installer.jar
 EAP=jboss-eap-6.4.0-installer.jar
+JDG=jboss-datagrid-6.4.1-server.zip
 VERSION=6.1
 
 # wipe screen.
@@ -40,6 +41,9 @@ echo
 
 command -v mvn -q >/dev/null 2>&1 || { echo >&2 "Maven is required but not installed yet... aborting."; exit 1; }
 
+echo "  - stopping any running datagrid instances"
+jps -lm | grep jboss-datagrid | grep -v grep | awk '{print $1}' | xargs kill -KILL
+
 # make some checks first before proceeding.	
 if [ -r $SRC_DIR/$EAP ] || [ -L $SRC_DIR/$EAP ]; then
 	echo Product sources are present...
@@ -57,6 +61,16 @@ if [ -r $SRC_DIR/$BPMS ] || [ -L $SRC_DIR/$BPMS ]; then
 		echo
 else
 		echo Need to download $BPMS package from the Customer Portal 
+		echo and place it in the $SRC_DIR directory to proceed...
+		echo
+		exit
+fi
+
+if [ -r $SRC_DIR/$JDG ] || [ -L $SRC_DIR/$JDG ]; then
+		echo Product sources are present...
+		echo
+else
+		echo Need to download $JDG package from the Customer Portal 
 		echo and place it in the $SRC_DIR directory to proceed...
 		echo
 		exit
@@ -89,6 +103,14 @@ if [ $? -ne 0 ]; then
 	exit
 fi
 
+echo "JBoss JDG is installing now..."
+echo
+unzip -q -d target $SRC_DIR/$JDG
+if [ $? -ne 0 ]; then
+	echo Error occurred during JBoss Data Grid installation
+	exit
+fi
+
 echo "  - enabling demo accounts role setup in application-roles.properties file..."
 echo
 cp $SUPPORT_DIR/application-roles.properties $SERVER_CONF
@@ -109,18 +131,27 @@ echo "  - making sure standalone.sh for server is executable..."
 echo
 chmod u+x $JBOSS_HOME/bin/standalone.sh
 
+
+echo "  - adding admin user to the data grid server..."
+JDG_HOME=target/jboss-datagrid-6.4.1-server
+$JDG_HOME/bin/add-user.sh -s -g admin -u admin -p admin-123 -s
+
 # Optional: uncomment this to install mock data for BPM Suite.
 #
 #echo - setting up mock bpm dashboard data...
 #cp $SUPPORT_DIR/1000_jbpm_demo_h2.sql $SERVER_DIR/dashbuilder.war/WEB-INF/etc/sql
 #echo
 
+echo
+echo
+echo "First start the Data Grid with $JDG_HOME/bin/standalone.sh -Djboss.socket.binding.port-offset=100"
+echo 
 echo "You can now start the $PRODUCT with $SERVER_BIN/standalone.sh"
 echo
 echo "Login into business central at:"
 echo
 echo "    http://localhost:8080/business-central  (u:erics / p:bpmsuite1!)"
 echo
-echo "$PRODUCT $VERSION $DEMO Setup Complete."
+echo "Setup Complete."
 echo
 

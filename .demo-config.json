@@ -1,0 +1,22 @@
+{
+  "name":"JBoss BPM Suite & JBoss Data Grid Customer Evaluation Demo",
+  "summary":"The customer evaluation project demonstrates the BPM Suite process integration with rules and is a straight through process (STP). Install options - local, OpenShift and Docker.",
+  "author":"Andrew Block, Eric D. Schabell, Thomas Qvarnstrom",
+  "categories":["brms","bpms","jdg"],
+  "level":"Easy Peasy",
+  "published":false,
+  "prerequisites":"Java 1.7",
+  "targetProduct":"JBoss BPM Suite, JBoss Data Grid",
+  "productVersion":"JBoss BPM Suite 6.1",
+  "technologies": ["JBoss BPM Suite"],
+  "links": [ 
+    { 
+      "name":"Code",
+      "url":"https://github.com/jbossdemocentral/bpms-customer-evaluation-demo"
+    },
+    { 
+      "name":"Install bpmPaaS",
+      "url":"https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=https://raw.githubusercontent.com/jbossdemocentral/cartridge-bpmPaaS-customer-evaluation-demo/master/metadata/manifest.yml&name=customerevaluation&gear_profile=medium&initial_git_url="
+    }
+  ]
+}
