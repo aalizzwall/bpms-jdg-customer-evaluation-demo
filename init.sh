@@ -156,9 +156,9 @@ echo "=        http://localhost:8080/business-central (u:erics/p:bpmsuite1!)    
 echo "=                                                                                         ="
 echo "=  You can now start the JBoss Data Grid with:                                            ="
 echo "=                                                                                         ="
-echo "=        $JDG_HOME/bin/standalone.sh -Djboss.socket.binding.port-offset=100"
+echo "=        $JDG_HOME/bin/standalone.sh -Djboss.socket.binding.port-offset=100               ="
 echo "=                                                                                         ="
-echo "=   $DEMO Setup Complete.                                    ="
+echo "=   $DEMO Setup Complete.                                              ="
 echo "==========================================================================================="
 echo
 
