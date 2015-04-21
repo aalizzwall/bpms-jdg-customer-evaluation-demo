@@ -41,7 +41,7 @@ echo
 
 command -v mvn -q >/dev/null 2>&1 || { echo >&2 "Maven is required but not installed yet... aborting."; exit 1; }
 
-echo "  - stopping any running datagrid instances"
+echo "Stopping any possibly running datagrid instances."
 jps -lm | grep jboss-datagrid | grep -v grep | awk '{print $1}' | xargs kill -KILL
 
 # make some checks first before proceeding.	
@@ -144,14 +144,21 @@ $JDG_HOME/bin/add-user.sh -s -g admin -u admin -p admin-123 -s
 
 echo
 echo
-echo "First start the Data Grid with $JDG_HOME/bin/standalone.sh -Djboss.socket.binding.port-offset=100"
-echo 
-echo "You can now start the $PRODUCT with $SERVER_BIN/standalone.sh"
-echo
-echo "Login into business central at:"
-echo
-echo "    http://localhost:8080/business-central  (u:erics / p:bpmsuite1!)"
-echo
-echo "Setup Complete."
+echo "==========================================================================================="
+echo "=                                                                                         ="
+echo "=  You can now start the JBoss BPM Suite with:                                            ="
+echo "=                                                                                         ="
+echo "=        $SERVER_BIN/standalone.sh                                         ="
+echo "=                                                                                         ="
+echo "=    - login, build and deploy JBoss BPM Suite process project at:                        ="
+echo "=                                                                                         ="
+echo "=        http://localhost:8080/business-central (u:erics/p:bpmsuite1!)                    ="
+echo "=                                                                                         ="
+echo "=  You can now start the JBoss Data Grid with:                                            ="
+echo "=                                                                                         ="
+echo "=        $JDG_HOME/bin/standalone.sh -Djboss.socket.binding.port-offset=100"
+echo "=                                                                                         ="
+echo "=   $DEMO Setup Complete.                                    ="
+echo "==========================================================================================="
 echo
 
