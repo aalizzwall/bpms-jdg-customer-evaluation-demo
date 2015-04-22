@@ -77,11 +77,13 @@ else
 fi
 
 # remove the old JBoss instance, if it exists.
-if [ -x $JBOSS_HOME ]; then
+if [ -x target ]; then
 	echo "  - removing existing JBoss product..."
 	echo
-	rm -rf $JBOSS_HOME
+	rm -rf target
 fi
+
+mkdir target
 
 # Run installers.
 echo "JBoss EAP installer running now..."
@@ -132,9 +134,18 @@ echo
 chmod u+x $JBOSS_HOME/bin/standalone.sh
 
 
-echo "  - adding admin user to the data grid server..."
 JDG_HOME=target/jboss-datagrid-6.4.1-server
-$JDG_HOME/bin/add-user.sh -s -g admin -u admin -p admin-123 -s
+
+echo "  - adding new cache entry to jdg and disable security on the REST interface"
+echo
+if [ "$(uname)" == "Darwin" ]; then
+	sed -i '' -f support/jdg-config.sed $JDG_HOME/standalone/configuration/standalone.xml
+else
+	sed -i -f support/jdg-config.sed $JDG_HOME/standalone/configuration/standalone.xml
+fi
+
+echo "  - downloading JDG remote client as a single jar into JBPM"
+curl -s -o $SERVER_DIR/business-central.war/WEB-INF/libinfinispan-remote-6.2.1.Final-redhat-2.jar https://maven.repository.redhat.com/techpreview/all/org/infinispan/infinispan-remote/6.2.1.Final-redhat-2/infinispan-remote-6.2.1.Final-redhat-2.jar
 
 # Optional: uncomment this to install mock data for BPM Suite.
 #
