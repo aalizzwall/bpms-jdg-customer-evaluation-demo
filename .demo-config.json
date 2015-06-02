@@ -2,7 +2,7 @@
   "name":"JBoss BPM Suite & JBoss Data Grid Customer Evaluation Demo",
   "summary":"The customer evaluation project demonstrates the BPM Suite process integration with rules and is a straight through process (STP). Install options - local, OpenShift and Docker.",
   "author":"Andrew Block, Eric D. Schabell, Thomas Qvarnstrom",
-  "categories":["brms","bpms","jdg"],
+  "categories":["multi","jdg"],
   "level":"Easy Peasy",
   "published":false,
   "prerequisites":"Java 1.7",
